@@ -1,0 +1,3203 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Ruslanbeckoff</title>
+
+  <meta
+    name="description"
+    content="Ruslanbeckoff — Skip local, Go global."
+  >
+
+  <meta
+    name="theme-color"
+    content="#090B0D"
+    id="themeColor"
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <style>
+
+    /* =====================================================
+       ROOT
+    ===================================================== */
+
+    :root {
+
+      --ice: #F0F8FF;
+      --blue: #72A0C1;
+      --navy: #003262;
+      --graphite: #2A3439;
+      --green: #568203;
+      --white: #F2F3F4;
+
+      --bg: #080B0D;
+
+      --text: #F0F8FF;
+
+      --text-soft: #DCE3E7;
+
+      --muted:
+        rgba(240,248,255,.52);
+
+      --glass:
+        rgba(255,255,255,.055);
+
+      --glass-strong:
+        rgba(255,255,255,.085);
+
+      --glass-border:
+        rgba(255,255,255,.095);
+
+      --glass-highlight:
+        rgba(255,255,255,.12);
+
+      --accent:
+        #72A0C1;
+
+      --accent-deep:
+        #003262;
+
+      --signal:
+        #568203;
+
+      --shadow:
+        rgba(0,0,0,.42);
+
+      --ambient:
+        rgba(114,160,193,.13);
+
+      --blur:
+        28px;
+
+      --max:
+        1080px;
+
+      --ease:
+        cubic-bezier(.22,.61,.36,1);
+
+      --fast:
+        .25s var(--ease);
+
+      --smooth:
+        .55s var(--ease);
+
+      --slow:
+        .8s var(--ease);
+    }
+
+
+    /* =====================================================
+       LIGHT MODE
+    ===================================================== */
+
+    html.light {
+
+      /*
+        Darker than normal white.
+        More like iOS frosted titanium.
+      */
+
+      --bg:
+        #DCE4E8;
+
+      --text:
+        #102330;
+
+      --text-soft:
+        #253944;
+
+      --muted:
+        rgba(37,57,68,.62);
+
+      --glass:
+        rgba(245,248,249,.40);
+
+      --glass-strong:
+        rgba(245,248,249,.58);
+
+      --glass-border:
+        rgba(255,255,255,.58);
+
+      --glass-highlight:
+        rgba(255,255,255,.78);
+
+      --accent:
+        #4F82A5;
+
+      --accent-deep:
+        #003262;
+
+      --signal:
+        #568203;
+
+      --shadow:
+        rgba(34,54,65,.16);
+
+      --ambient:
+        rgba(114,160,193,.20);
+    }
+
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    html {
+
+      scroll-behavior:
+        smooth;
+
+      background:
+        var(--bg);
+
+      transition:
+        background
+        var(--slow);
+    }
+
+
+    body {
+
+      min-height:
+        100vh;
+
+      overflow-x:
+        hidden;
+
+      color:
+        var(--text);
+
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      background:
+
+        radial-gradient(
+          circle at 50% 15%,
+          var(--ambient),
+          transparent 32%
+        ),
+
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(0,50,98,.07),
+          transparent 34%
+        ),
+
+        var(--bg);
+
+      transition:
+
+        background
+        var(--slow),
+
+        color
+        var(--smooth);
+
+    }
+
+
+    body::before {
+
+      content: "";
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      pointer-events:
+        none;
+
+      z-index:
+        -1;
+
+      background:
+
+        radial-gradient(
+          circle at 50% 50%,
+          transparent 35%,
+          rgba(0,0,0,.12)
+        );
+
+      opacity:
+        .55;
+
+      transition:
+        opacity
+        var(--slow);
+
+    }
+
+
+    html.light body::before {
+
+      opacity:
+        .12;
+
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    button {
+      font: inherit;
+    }
+
+
+    /* =====================================================
+       LIQUID GLASS
+    ===================================================== */
+
+    .glass {
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.085),
+          rgba(255,255,255,.025)
+        );
+
+      background-color:
+        var(--glass);
+
+      border:
+        1px solid
+        var(--glass-border);
+
+      box-shadow:
+
+        inset
+        0 1px 0
+        var(--glass-highlight),
+
+        inset
+        0 -1px 0
+        rgba(0,0,0,.08),
+
+        0 20px 55px
+        var(--shadow);
+
+      backdrop-filter:
+
+        blur(var(--blur))
+        saturate(145%);
+
+      -webkit-backdrop-filter:
+
+        blur(var(--blur))
+        saturate(145%);
+
+      transition:
+
+        background
+        var(--smooth),
+
+        border-color
+        var(--smooth),
+
+        box-shadow
+        var(--smooth);
+
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    nav {
+
+      position:
+        fixed;
+
+      z-index:
+        100;
+
+      top:
+        17px;
+
+      left:
+        50%;
+
+      transform:
+        translateX(-50%);
+
+      width:
+        min(
+          calc(100% - 30px),
+          760px
+        );
+
+      min-height:
+        55px;
+
+      padding:
+        8px 9px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      border-radius:
+        19px;
+
+      transition:
+        background
+        var(--smooth);
+
+    }
+
+
+    /* =====================================================
+       THEME CONTROL
+    ===================================================== */
+
+    .nav-left {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+    }
+
+
+    .theme-toggle {
+
+      position:
+        relative;
+
+      width:
+        68px;
+
+      height:
+        36px;
+
+      padding:
+        3px;
+
+      border:
+        0;
+
+      border-radius:
+        999px;
+
+      cursor:
+        pointer;
+
+      background:
+        rgba(0,0,0,.16);
+
+      box-shadow:
+
+        inset
+        0 1px 2px
+        rgba(0,0,0,.18),
+
+        inset
+        0 0 0 1px
+        rgba(255,255,255,.06);
+
+      transition:
+        background
+        var(--smooth);
+
+    }
+
+
+    html.light .theme-toggle {
+
+      background:
+        rgba(0,50,98,.10);
+
+    }
+
+
+    .theme-slider {
+
+      position:
+        absolute;
+
+      top:
+        3px;
+
+      left:
+        3px;
+
+      width:
+        30px;
+
+      height:
+        30px;
+
+      border-radius:
+        50%;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      color:
+        var(--text);
+
+      background:
+
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.24),
+          rgba(255,255,255,.055)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      box-shadow:
+
+        0 3px 12px
+        rgba(0,0,0,.20),
+
+        inset
+        0 1px 0
+        rgba(255,255,255,.16);
+
+      transition:
+        transform
+        .65s var(--ease);
+
+    }
+
+
+    html.light .theme-slider {
+
+      transform:
+        translateX(32px);
+
+      background:
+        rgba(255,255,255,.68);
+
+      color:
+        #003262;
+
+      box-shadow:
+
+        0 3px 12px
+        rgba(0,50,98,.16),
+
+        inset
+        0 1px 0
+        rgba(255,255,255,.9);
+
+    }
+
+
+    .theme-icon {
+
+      width:
+        15px;
+
+      height:
+        15px;
+
+      transition:
+        transform
+        .6s var(--ease);
+
+    }
+
+
+    .theme-toggle:hover
+    .theme-icon {
+
+      transform:
+        rotate(18deg)
+        scale(1.06);
+
+    }
+
+
+    /* =====================================================
+       LANGUAGE
+    ===================================================== */
+
+    .nav-right {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+    }
+
+
+    .language-switcher {
+
+      display:
+        flex;
+
+      gap:
+        2px;
+
+      padding:
+        3px;
+
+      border-radius:
+        13px;
+
+      background:
+        rgba(0,0,0,.12);
+
+      border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    }
+
+
+    .language-button {
+
+      border:
+        0;
+
+      cursor:
+        pointer;
+
+      padding:
+        6px 9px;
+
+      border-radius:
+        9px;
+
+      color:
+        var(--muted);
+
+      background:
+        transparent;
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        9px;
+
+      transition:
+        var(--fast);
+
+    }
+
+
+    .language-button:hover {
+
+      color:
+        var(--text);
+
+    }
+
+
+    .language-button.active {
+
+      color:
+        var(--text);
+
+      background:
+        rgba(255,255,255,.10);
+
+      box-shadow:
+        inset
+        0 1px 0
+        rgba(255,255,255,.10);
+
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+
+      min-height:
+        100vh;
+
+      padding:
+        120px 20px 75px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .hero-content {
+
+      width:
+        100%;
+
+      max-width:
+        var(--max);
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      text-align:
+        center;
+
+    }
+
+
+    /* =====================================================
+       PROFESSIONAL CYBER ANIMATION
+    ===================================================== */
+
+    .cyber {
+
+      position:
+        relative;
+
+      width:
+        min(540px, 94vw);
+
+      height:
+        270px;
+
+      margin-bottom:
+        4px;
+
+      perspective:
+        800px;
+
+      transform-style:
+        preserve-3d;
+
+      transition:
+        transform
+        .8s var(--ease);
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          transparent,
+          black 13%,
+          black 87%,
+          transparent
+        );
+
+      -webkit-mask-image:
+        linear-gradient(
+          to bottom,
+          transparent,
+          black 13%,
+          black 87%,
+          transparent
+        );
+
+    }
+
+
+    /* Ambient core */
+
+    .cyber::before {
+
+      content: "";
+
+      position:
+        absolute;
+
+      left:
+        50%;
+
+      top:
+        50%;
+
+      width:
+        210px;
+
+      height:
+        210px;
+
+      transform:
+        translate(-50%,-50%);
+
+      border-radius:
+        50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(114,160,193,.16),
+          rgba(114,160,193,.045) 38%,
+          transparent 70%
+        );
+
+      filter:
+        blur(14px);
+
+      animation:
+        coreBreath
+        5s ease-in-out
+        infinite;
+
+    }
+
+
+    @keyframes coreBreath {
+
+      0%,
+      100% {
+        transform:
+          translate(-50%,-50%)
+          scale(.88);
+
+        opacity:
+          .55;
+      }
+
+      50% {
+        transform:
+          translate(-50%,-50%)
+          scale(1.08);
+
+        opacity:
+          .9;
+      }
+
+    }
+
+
+    /* Grid */
+
+    .cyber-grid {
+
+      position:
+        absolute;
+
+      inset:
+        8% 5%;
+
+      opacity:
+        .14;
+
+      background-image:
+
+        linear-gradient(
+          rgba(114,160,193,.25)
+          1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          rgba(114,160,193,.25)
+          1px,
+          transparent 1px
+        );
+
+      background-size:
+        45px 45px;
+
+      transform:
+        perspective(500px)
+        rotateX(62deg)
+        scale(1.28);
+
+      transform-origin:
+        center bottom;
+
+    }
+
+
+    /* Orbital rings */
+
+    .orbit {
+
+      position:
+        absolute;
+
+      left:
+        50%;
+
+      top:
+        50%;
+
+      width:
+        250px;
+
+      height:
+        120px;
+
+      border:
+        1px solid
+        rgba(114,160,193,.18);
+
+      border-radius:
+        50%;
+
+      transform:
+        translate(-50%,-50%)
+        rotateX(65deg)
+        rotateZ(12deg);
+
+      animation:
+        orbitRotate
+        12s linear
+        infinite;
+
+    }
+
+
+    .orbit.two {
+
+      width:
+        190px;
+
+      height:
+        190px;
+
+      transform:
+        translate(-50%,-50%)
+        rotateY(67deg)
+        rotateZ(-20deg);
+
+      border-color:
+        rgba(114,160,193,.12);
+
+      animation-duration:
+        17s;
+
+      animation-direction:
+        reverse;
+
+    }
+
+
+    @keyframes orbitRotate {
+
+      from {
+        transform:
+          translate(-50%,-50%)
+          rotateX(65deg)
+          rotateZ(12deg)
+          rotate(0deg);
+      }
+
+      to {
+        transform:
+          translate(-50%,-50%)
+          rotateX(65deg)
+          rotateZ(12deg)
+          rotate(360deg);
+      }
+
+    }
+
+
+    /* Network connections */
+
+    .connection {
+
+      position:
+        absolute;
+
+      height:
+        1px;
+
+      transform-origin:
+        left center;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(114,160,193,.34),
+          transparent
+        );
+
+      opacity:
+        .65;
+
+      filter:
+        drop-shadow(
+          0 0 5px
+          rgba(114,160,193,.18)
+        );
+
+    }
+
+
+    .c1 {
+      width: 170px;
+      left: 19%;
+      top: 45%;
+      transform: rotate(16deg);
+    }
+
+
+    .c2 {
+      width: 145px;
+      left: 42%;
+      top: 43%;
+      transform: rotate(-25deg);
+    }
+
+
+    .c3 {
+      width: 130px;
+      left: 37%;
+      top: 62%;
+      transform: rotate(24deg);
+    }
+
+
+    .c4 {
+      width: 150px;
+      left: 55%;
+      top: 56%;
+      transform: rotate(-16deg);
+    }
+
+
+    .c5 {
+      width: 105px;
+      left: 57%;
+      top: 39%;
+      transform: rotate(20deg);
+    }
+
+
+    /* Nodes */
+
+    .node {
+
+      position:
+        absolute;
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--accent);
+
+      box-shadow:
+
+        0 0 8px
+        rgba(114,160,193,.7),
+
+        0 0 24px
+        rgba(114,160,193,.20);
+
+      animation:
+        nodeGlow
+        3.8s ease-in-out
+        infinite;
+
+    }
+
+
+    .node.green {
+
+      background:
+        var(--signal);
+
+      box-shadow:
+
+        0 0 8px
+        rgba(86,130,3,.8),
+
+        0 0 22px
+        rgba(86,130,3,.22);
+
+    }
+
+
+    .p1 { left: 19%; top: 44%; }
+    .p2 { left: 42%; top: 43%; animation-delay:.5s; }
+    .p3 { left: 64%; top: 38%; animation-delay:1s; }
+    .p4 { left: 37%; top: 62%; animation-delay:1.4s; }
+    .p5 { left: 55%; top: 56%; animation-delay:1.9s; }
+    .p6 { left: 70%; top: 60%; animation-delay:2.5s; }
+    .p7 { left: 57%; top: 39%; animation-delay:.9s; }
+    .p8 { left: 29%; top: 58%; animation-delay:2.1s; }
+
+
+    @keyframes nodeGlow {
+
+      0%,
+      100% {
+        opacity:
+          .28;
+
+        transform:
+          scale(.8);
+      }
+
+      50% {
+        opacity:
+          1;
+
+        transform:
+          scale(1.45);
+      }
+
+    }
+
+
+    /* Scanning pulse */
+
+    .scan {
+
+      position:
+        absolute;
+
+      left:
+        13%;
+
+      right:
+        13%;
+
+      top:
+        50%;
+
+      height:
+        1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(114,160,193,.55),
+          transparent
+        );
+
+      opacity:
+        .35;
+
+      filter:
+        blur(.2px);
+
+      animation:
+        scan
+        5s ease-in-out
+        infinite;
+
+    }
+
+
+    @keyframes scan {
+
+      0% {
+        transform:
+          translateY(-95px);
+
+        opacity:
+          0;
+      }
+
+      20% {
+        opacity:
+          .35;
+      }
+
+      80% {
+        opacity:
+          .35;
+      }
+
+      100% {
+        transform:
+          translateY(95px);
+
+        opacity:
+          0;
+      }
+
+    }
+
+
+    /* Data particles */
+
+    .data {
+
+      position:
+        absolute;
+
+      width:
+        14px;
+
+      height:
+        2px;
+
+      border-radius:
+        10px;
+
+      background:
+        var(--accent);
+
+      box-shadow:
+        0 0 10px
+        rgba(114,160,193,.75);
+
+      opacity:
+        0;
+
+      animation:
+        dataFlow
+        4.5s linear
+        infinite;
+
+    }
+
+
+    .d1 {
+      left: 19%;
+      top: 44%;
+      transform: rotate(16deg);
+    }
+
+
+    .d2 {
+      left: 42%;
+      top: 43%;
+      animation-delay: 1.5s;
+      transform: rotate(-25deg);
+    }
+
+
+    .d3 {
+      left: 37%;
+      top: 62%;
+      animation-delay: 3s;
+      transform: rotate(24deg);
+    }
+
+
+    @keyframes dataFlow {
+
+      0% {
+        opacity: 0;
+        transform:
+          translateX(-15px)
+          scaleX(.5);
+      }
+
+      15% {
+        opacity: .9;
+      }
+
+      75% {
+        opacity: .7;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translateX(105px)
+          scaleX(1);
+      }
+
+    }
+
+
+    /* =====================================================
+       HERO TITLE
+    ===================================================== */
+
+    .identity {
+
+      position:
+        relative;
+
+      z-index:
+        2;
+
+    }
+
+
+    .identity h1 {
+
+      margin-bottom:
+        18px;
+
+      font-size:
+        clamp(
+          46px,
+          9vw,
+          86px
+        );
+
+      line-height:
+        .92;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        -.065em;
+
+      color:
+        var(--text);
+
+      text-shadow:
+        0 0 45px
+        rgba(114,160,193,.08);
+
+      transition:
+        color
+        var(--smooth);
+
+    }
+
+
+    .tagline {
+
+      margin-bottom:
+        24px;
+
+      color:
+        var(--muted);
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        11px;
+
+      letter-spacing:
+        .045em;
+
+    }
+
+
+    .signature {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+
+      color:
+        var(--muted);
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        10px;
+
+      letter-spacing:
+        .10em;
+
+    }
+
+
+    .signature::before {
+
+      content:
+        "";
+
+      width:
+        18px;
+
+      height:
+        1px;
+
+      background:
+        var(--signal);
+
+      box-shadow:
+        0 0 8px
+        rgba(86,130,3,.35);
+
+    }
+
+
+    /* =====================================================
+       SCROLL
+    ===================================================== */
+
+    .scroll-indicator {
+
+      margin-top:
+        50px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      cursor:
+        pointer;
+
+      color:
+        var(--muted);
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        8px;
+
+      letter-spacing:
+        .15em;
+
+      text-transform:
+        uppercase;
+
+    }
+
+
+    .scroll-line {
+
+      width:
+        1px;
+
+      height:
+        34px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          var(--accent),
+          transparent
+        );
+
+      animation:
+        scrollPulse
+        2.2s ease-in-out
+        infinite;
+
+    }
+
+
+    @keyframes scrollPulse {
+
+      0%,
+      100% {
+        opacity:
+          .3;
+
+        transform:
+          scaleY(.65);
+      }
+
+      50% {
+        opacity:
+          1;
+
+        transform:
+          scaleY(1);
+      }
+
+    }
+
+
+    /* =====================================================
+       CONNECT
+    ===================================================== */
+
+    .connect {
+
+      width:
+        min(
+          calc(100% - 40px),
+          var(--max)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        90px 0 120px;
+
+    }
+
+
+    .section-header {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        14px;
+
+      margin-bottom:
+        28px;
+
+    }
+
+
+    .section-number {
+
+      color:
+        var(--accent);
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        9px;
+
+      opacity:
+        .75;
+
+    }
+
+
+    .section-title {
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+      font-weight:
+        500;
+
+      letter-spacing:
+        .10em;
+
+      text-transform:
+        uppercase;
+
+    }
+
+
+    .section-line {
+
+      flex:
+        1;
+
+      height:
+        1px;
+
+      background:
+        var(--glass-border);
+
+    }
+
+
+    /* =====================================================
+       SOCIAL
+    ===================================================== */
+
+    .social-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:
+        11px;
+
+    }
+
+
+    .social-link {
+
+      position:
+        relative;
+
+      min-height:
+        108px;
+
+      overflow:
+        hidden;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        12px;
+
+      border-radius:
+        var(--radius-md);
+
+      color:
+        var(--muted);
+
+      background:
+        var(--glass);
+
+      border:
+        1px solid
+        var(--glass-border);
+
+      box-shadow:
+
+        inset
+        0 1px 0
+        var(--glass-highlight),
+
+        0 14px 38px
+        var(--shadow);
+
+      backdrop-filter:
+        blur(22px)
+        saturate(140%);
+
+      -webkit-backdrop-filter:
+        blur(22px)
+        saturate(140%);
+
+      transition:
+        transform
+        var(--smooth),
+
+        color
+        var(--fast),
+
+        border-color
+        var(--smooth),
+
+        box-shadow
+        var(--smooth),
+
+        background
+        var(--smooth);
+
+    }
+
+
+    .social-link::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      background:
+        radial-gradient(
+          circle at 50% -20%,
+          rgba(114,160,193,.15),
+          transparent 52%
+        );
+
+      opacity:
+        0;
+
+      transition:
+        opacity
+        var(--smooth);
+
+    }
+
+
+    .social-link:hover {
+
+      transform:
+        translateY(-5px);
+
+      color:
+        var(--text);
+
+      border-color:
+        rgba(114,160,193,.30);
+
+      box-shadow:
+
+        inset
+        0 1px 0
+        rgba(255,255,255,.12),
+
+        0 24px 50px
+        var(--shadow);
+
+    }
+
+
+    .social-link:hover::before {
+
+      opacity:
+        1;
+
+    }
+
+
+    .social-icon {
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+      width:
+        24px;
+
+      height:
+        24px;
+
+    }
+
+
+    .social-name {
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        9px;
+
+    }
+
+
+    /* =====================================================
+       PORTFOLIO
+    ===================================================== */
+
+    .portfolio-wrap {
+
+      margin-top:
+        40px;
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+    }
+
+
+    .portfolio {
+
+      position:
+        relative;
+
+      min-width:
+        220px;
+
+      padding:
+        15px 24px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        14px;
+
+      overflow:
+        hidden;
+
+      border-radius:
+        15px;
+
+      color:
+        var(--ice);
+
+      background:
+        linear-gradient(
+          135deg,
+          #003262,
+          #064B78
+        );
+
+      border:
+        1px solid
+        rgba(114,160,193,.52);
+
+      box-shadow:
+
+        0 14px 38px
+        rgba(0,50,98,.30),
+
+        inset
+        0 1px 0
+        rgba(240,248,255,.20);
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        10px;
+
+      letter-spacing:
+        .09em;
+
+      transition:
+        transform
+        var(--smooth),
+
+        box-shadow
+        var(--smooth),
+
+        border-color
+        var(--smooth);
+
+    }
+
+
+    .portfolio::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      top:
+        -100%;
+
+      left:
+        -35%;
+
+      width:
+        38%;
+
+      height:
+        300%;
+
+      transform:
+        rotate(25deg);
+
+      background:
+        rgba(255,255,255,.12);
+
+      transition:
+        left
+        .7s ease;
+
+    }
+
+
+    .portfolio:hover {
+
+      transform:
+        translateY(-5px);
+
+      border-color:
+        var(--blue);
+
+      box-shadow:
+
+        0 20px 48px
+        rgba(0,50,98,.38),
+
+        0 0 30px
+        rgba(114,160,193,.13),
+
+        inset
+        0 1px 0
+        rgba(240,248,255,.24);
+
+    }
+
+
+    .portfolio:hover::before {
+
+      left:
+        125%;
+
+    }
+
+
+    .portfolio span {
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+    }
+
+
+    .portfolio-arrow {
+
+      font-size:
+        14px;
+
+      transition:
+        transform
+        var(--smooth);
+
+    }
+
+
+    .portfolio:hover
+    .portfolio-arrow {
+
+      transform:
+        translate(3px,-3px);
+
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer {
+
+      padding:
+        28px 20px 34px;
+
+      border-top:
+        1px solid
+        var(--glass-border);
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        8px;
+
+      letter-spacing:
+        .06em;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width:700px) {
+
+      nav {
+
+        top:
+          11px;
+
+        width:
+          calc(100% - 22px);
+
+        border-radius:
+          17px;
+
+      }
+
+
+      .hero {
+
+        padding:
+          100px 15px 70px;
+
+      }
+
+
+      .cyber {
+
+        height:
+          225px;
+
+      }
+
+
+      .identity h1 {
+
+        font-size:
+          clamp(
+            42px,
+            13vw,
+            65px
+          );
+
+      }
+
+
+      .tagline {
+
+        padding:
+          0 12px;
+
+        font-size:
+          9px;
+
+      }
+
+
+      .social-grid {
+
+        grid-template-columns:
+          repeat(4,1fr);
+
+        gap:
+          8px;
+
+      }
+
+
+      .social-link {
+
+        min-height:
+          94px;
+
+        border-radius:
+          16px;
+
+      }
+
+
+      .social-icon {
+
+        width:
+          21px;
+
+        height:
+          21px;
+
+      }
+
+
+      .social-name {
+
+        font-size:
+          7.5px;
+
+      }
+
+
+      .connect {
+
+        width:
+          calc(100% - 30px);
+
+        padding:
+          70px 0 90px;
+
+      }
+
+    }
+
+
+    @media (max-width:390px) {
+
+      .social-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+
+      }
+
+
+      .social-link {
+
+        min-height:
+          100px;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
+
+    @media (prefers-reduced-motion:reduce) {
+
+      html {
+        scroll-behavior:
+          auto;
+      }
+
+
+      *,
+      *::before,
+      *::after {
+
+        animation-duration:
+          .01ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          .01ms !important;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ===================================================
+       NAV
+  =================================================== -->
+
+  <nav class="glass">
+
+
+    <!-- Theme -->
+
+    <div class="nav-left">
+
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Change theme"
+      >
+
+        <span class="theme-slider">
+
+          <svg
+            class="theme-icon"
+            id="themeIcon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          >
+
+            <path
+              d="M21 12.8A8.5 8.5 0 0 1
+                 11.2 3a8.5 8.5 0 1 0
+                 9.8 9.8Z"
+              fill="currentColor"
+              stroke="none"
+            />
+
+          </svg>
+
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- Languages -->
+
+    <div class="nav-right">
+
+      <div class="language-switcher">
+
+        <button
+          class="language-button"
+          data-language="uz"
+          type="button"
+        >
+          UZ
+        </button>
+
+        <button
+          class="language-button"
+          data-language="ru"
+          type="button"
+        >
+          RU
+        </button>
+
+        <button
+          class="language-button"
+          data-language="en"
+          type="button"
+        >
+          EN
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- ===================================================
+       HERO
+  =================================================== -->
+
+  <main>
+
+
+    <section class="hero">
+
+
+      <div class="hero-content">
+
+
+        <!-- Professional cyber animation -->
+
+        <div
+          class="cyber"
+          aria-hidden="true"
+        >
+
+          <div class="cyber-grid"></div>
+
+
+          <div class="orbit"></div>
+
+          <div class="orbit two"></div>
+
+
+          <div class="connection c1"></div>
+          <div class="connection c2"></div>
+          <div class="connection c3"></div>
+          <div class="connection c4"></div>
+          <div class="connection c5"></div>
+
+
+          <div class="node p1"></div>
+          <div class="node p2"></div>
+
+          <div class="node p3 green"></div>
+
+          <div class="node p4"></div>
+
+          <div class="node p5 green"></div>
+
+          <div class="node p6"></div>
+          <div class="node p7"></div>
+          <div class="node p8"></div>
+
+
+          <div class="data d1"></div>
+          <div class="data d2"></div>
+          <div class="data d3"></div>
+
+
+          <div class="scan"></div>
+
+        </div>
+
+
+        <!-- Identity -->
+
+        <div class="identity">
+
+          <h1>
+            Ruslanbeckoff
+          </h1>
+
+
+          <p
+            class="tagline"
+            id="tagline"
+          >
+            Lokalni chetlab o't. Globalga chiq.
+          </p>
+
+
+          <div class="signature">
+            O'zimiz.
+          </div>
+
+
+          <div
+            class="scroll-indicator"
+            id="scrollIndicator"
+          >
+
+            <span id="scrollText">
+              pastga
+            </span>
+
+            <span class="scroll-line"></span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CONNECT
+    ================================================= -->
+
+    <section
+      class="connect"
+      id="connect"
+    >
+
+
+      <div class="section-header">
+
+        <span class="section-number">
+          01
+        </span>
+
+        <span
+          class="section-title"
+          id="connectTitle"
+        >
+          Bog'lanish
+        </span>
+
+        <span class="section-line"></span>
+
+      </div>
+
+
+      <div class="social-grid">
+
+
+        <!-- Telegram Channel -->
+
+        <a
+          href="https://t.me/r17uz"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+
+            <path
+              d="M21.8 3.1 18.7 20c-.23 1.2-.87 1.5-1.76.94l-4.82-3.55-2.33 2.24c-.26.26-.48.48-.99.48l.35-4.91 8.94-8.08c.39-.35-.09-.55-.6-.2L6.44 13.65l-4.75-1.49c-1.03-.32-1.05-1.03.22-1.53L20.47 3c.87-.32 1.63.2 1.33.1Z"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            Telegram kanal
+          </span>
+
+        </a>
+
+
+        <!-- Telegram -->
+
+        <a
+          href="https://t.me/Ruslanbeckoff"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+
+            <path
+              d="M21.8 3.1 18.7 20c-.23 1.2-.87 1.5-1.76.94l-4.82-3.55-2.33 2.24c-.26.26-.48.48-.99.48l.35-4.91 8.94-8.08c.39-.35-.09-.55-.6-.2L6.44 13.65l-4.75-1.49c-1.03-.32-1.05-1.03.22-1.53L20.47 3c.87-.32 1.63.2 1.33.1Z"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            Telegram
+          </span>
+
+        </a>
+
+
+        <!-- Instagram -->
+
+        <a
+          href="https://instagram.com/ruslanbeckoff"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+          >
+
+            <rect
+              x="3"
+              y="3"
+              width="18"
+              height="18"
+              rx="5"
+            />
+
+            <circle
+              cx="12"
+              cy="12"
+              r="4"
+            />
+
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r=".8"
+              fill="currentColor"
+              stroke="none"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            Instagram
+          </span>
+
+        </a>
+
+
+        <!-- YouTube -->
+
+        <a
+          href="https://www.youtube.com/@theruslanbeckoff"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linejoin="round"
+          >
+
+            <rect
+              x="2.5"
+              y="5"
+              width="19"
+              height="14"
+              rx="4"
+            />
+
+            <path
+              d="m10 9 5 3-5 3V9Z"
+              fill="currentColor"
+              stroke="none"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            YouTube
+          </span>
+
+        </a>
+
+
+        <!-- GitHub -->
+
+        <a
+          href="https://github.com/ruslanbeckoff-dotcom"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+
+            <path
+              d="M15 22v-3.5c0-1-.35-1.8-1-2.5 3.3-.35 6.75-1.6 6.75-7.2 0-1.6-.55-2.9-.55-3.9.15-.35.65-1.85-.15-3.85 0 0-1.2-.4-3.95 1.5-1.15-.3-2.35-.45-3.55-.45s-2.4.15-3.55.45C5.35.65 4.15 1.05 4.15 1.05c-.8 2-.3 3.5-.15 3.85-.9 1-1.45 2.3-1.45 3.9 0 5.6 3.45 6.85 6.75 7.2-.65.7-1 1.55-1 2.5V22"
+            />
+
+            <path
+              d="M8.3 18.5c-3 .9-3-1.5-4.2-1.7"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            GitHub
+          </span>
+
+        </a>
+
+
+        <!-- Discord -->
+
+        <a
+          href="https://discord.gg/FkVa47Ka"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+
+            <path
+              d="M7.5 6.5A14.5 14.5 0 0 1 12 5.8c1.6 0 3.1.25 4.5.7 1.7 2.4 2.55 5.2 2.35 8.4-1.2.9-2.35 1.45-3.5 1.8l-.85-1.25c.45-.16.9-.35 1.3-.58-.1-.07-.2-.13-.3-.2-2.55 1.18-5.25 1.18-7.8 0-.1.07-.2.13-.3.2.4.23.85.42 1.3.58l-.85 1.25c-1.15-.35-2.3-.9-3.5-1.8-.25-3.25.65-6.05 2.35-8.4Z"
+            />
+
+            <circle
+              cx="9.5"
+              cy="12.2"
+              r=".7"
+              fill="currentColor"
+            />
+
+            <circle
+              cx="14.5"
+              cy="12.2"
+              r=".7"
+              fill="currentColor"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            Discord
+          </span>
+
+        </a>
+
+
+        <!-- Steam -->
+
+        <a
+          href="https://s.team/p/dwpp-dbfc/FFFQNRPH"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+
+            <circle
+              cx="16.5"
+              cy="7.5"
+              r="3"
+            />
+
+            <circle
+              cx="7"
+              cy="16.5"
+              r="2.5"
+            />
+
+            <path
+              d="m9.2 15.2 4.8-5.3"
+            />
+
+            <path
+              d="m4.7 15.7 2.3.8"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            Steam
+          </span>
+
+        </a>
+
+
+        <!-- Email -->
+
+        <a
+          href="mailto:ruslanbeckoff@gmail.com"
+          class="social-link"
+        >
+
+          <svg
+            class="social-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+
+            <rect
+              x="3"
+              y="5"
+              width="18"
+              height="14"
+              rx="3"
+            />
+
+            <path
+              d="m4 7 8 6 8-6"
+            />
+
+          </svg>
+
+          <span class="social-name">
+            Email
+          </span>
+
+        </a>
+
+
+      </div>
+
+
+      <!-- =================================================
+           PORTFOLIO
+      ================================================= -->
+
+      <div class="portfolio-wrap">
+
+        <a
+          href="https://t.me/Ruslanbeckoff_Us"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="portfolio"
+        >
+
+          <span id="portfolioText">
+            PORTFOLIO
+          </span>
+
+          <span class="portfolio-arrow">
+            ↗
+          </span>
+
+        </a>
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+  <!-- ===================================================
+       FOOTER
+  =================================================== -->
+
+  <footer>
+
+    <span>
+      Ruslanbeckoff
+    </span>
+
+    <span>
+      ·
+    </span>
+
+    <span>
+      2026
+    </span>
+
+  </footer>
+
+
+  <script>
+
+
+    /* =====================================================
+       TRANSLATIONS
+    ===================================================== */
+
+    const translations = {
+
+      uz: {
+
+        tagline:
+          "Lokalni chetlab o't. Globalga chiq.",
+
+        scroll:
+          "pastga",
+
+        connect:
+          "Bog'lanish",
+
+        portfolio:
+          "PORTFOLIO"
+
+      },
+
+
+      ru: {
+
+        tagline:
+          "Минуй локальное. Выходи в глобальное.",
+
+        scroll:
+          "вниз",
+
+        connect:
+          "Связь",
+
+        portfolio:
+          "ПОРТФОЛИО"
+
+      },
+
+
+      en: {
+
+        tagline:
+          "Skip local, Go global.",
+
+        scroll:
+          "scroll",
+
+        connect:
+          "Connect",
+
+        portfolio:
+          "PORTFOLIO"
+
+      }
+
+    };
+
+
+    const languageButtons =
+      document.querySelectorAll(
+        ".language-button"
+      );
+
+
+    const tagline =
+      document.getElementById(
+        "tagline"
+      );
+
+
+    const scrollText =
+      document.getElementById(
+        "scrollText"
+      );
+
+
+    const connectTitle =
+      document.getElementById(
+        "connectTitle"
+      );
+
+
+    const portfolioText =
+      document.getElementById(
+        "portfolioText"
+      );
+
+
+    function setLanguage(
+      language
+    ) {
+
+      if (
+        !translations[language]
+      ) {
+
+        language =
+          "uz";
+
+      }
+
+
+      const t =
+        translations[language];
+
+
+      document.documentElement.lang =
+        language;
+
+
+      tagline.textContent =
+        t.tagline;
+
+
+      scrollText.textContent =
+        t.scroll;
+
+
+      connectTitle.textContent =
+        t.connect;
+
+
+      portfolioText.textContent =
+        t.portfolio;
+
+
+      languageButtons.forEach(
+        button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.language ===
+              language
+          );
+
+        }
+      );
+
+
+      localStorage.setItem(
+        "rb-language",
+        language
+      );
+
+    }
+
+
+    languageButtons.forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            setLanguage(
+              button.dataset.language
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    const savedLanguage =
+      localStorage.getItem(
+        "rb-language"
+      );
+
+
+    const browserLanguage =
+      navigator.language
+        .toLowerCase()
+        .split("-")[0];
+
+
+    setLanguage(
+
+      savedLanguage ||
+
+      (
+        ["uz","ru","en"]
+          .includes(
+            browserLanguage
+          )
+
+        ? browserLanguage
+        : "uz"
+      )
+
+    );
+
+
+    /* =====================================================
+       THEME
+    ===================================================== */
+
+    const themeToggle =
+      document.getElementById(
+        "themeToggle"
+      );
+
+
+    const themeIcon =
+      document.getElementById(
+        "themeIcon"
+      );
+
+
+    const themeColor =
+      document.getElementById(
+        "themeColor"
+      );
+
+
+    function setTheme(
+      theme
+    ) {
+
+      const light =
+        theme === "light";
+
+
+      document.documentElement
+        .classList
+        .toggle(
+          "light",
+          light
+        );
+
+
+      if (light) {
+
+        /*
+          Correct sun icon
+        */
+
+        themeIcon.innerHTML = `
+
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+          />
+
+          <path d="M12 2v2"/>
+          <path d="M12 20v2"/>
+          <path d="m4.93 4.93 1.41 1.41"/>
+          <path d="m17.66 17.66 1.41 1.41"/>
+          <path d="M2 12h2"/>
+          <path d="M20 12h2"/>
+          <path d="m6.34 17.66-1.41 1.41"/>
+          <path d="m19.07 4.93-1.41 1.41"/>
+
+        `;
+
+        themeColor.content =
+          "#DCE4E8";
+
+      } else {
+
+        /*
+          Correct moon icon
+        */
+
+        themeIcon.innerHTML = `
+
+          <path
+            d="M21 12.8A8.5 8.5 0 0 1
+               11.2 3a8.5 8.5 0 1 0
+               9.8 9.8Z"
+            fill="currentColor"
+            stroke="none"
+          />
+
+        `;
+
+        themeColor.content =
+          "#080B0D";
+
+      }
+
+
+      localStorage.setItem(
+        "rb-theme",
+        theme
+      );
+
+    }
+
+
+    themeToggle.addEventListener(
+      "click",
+      () => {
+
+        const light =
+          document.documentElement
+            .classList
+            .contains(
+              "light"
+            );
+
+
+        setTheme(
+          light
+            ? "dark"
+            : "light"
+        );
+
+      }
+    );
+
+
+    const savedTheme =
+      localStorage.getItem(
+        "rb-theme"
+      );
+
+
+    const systemLight =
+      window.matchMedia(
+        "(prefers-color-scheme: light)"
+      ).matches;
+
+
+    setTheme(
+
+      savedTheme ||
+
+      (
+        systemLight
+          ? "light"
+          : "dark"
+      )
+
+    );
+
+
+    /* =====================================================
+       SCROLL
+    ===================================================== */
+
+    document
+      .getElementById(
+        "scrollIndicator"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          document
+            .getElementById(
+              "connect"
+            )
+            .scrollIntoView({
+              behavior:
+                window.matchMedia(
+                  "(prefers-reduced-motion: reduce)"
+                ).matches
+                  ? "auto"
+                  : "smooth"
+            });
+
+        }
+      );
+
+
+    /* =====================================================
+       CYBER PARALLAX
+    ===================================================== */
+
+    const cyber =
+      document.querySelector(
+        ".cyber"
+      );
+
+
+    const reducedMotion =
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+
+    if (!reducedMotion) {
+
+      let targetX = 0;
+      let targetY = 0;
+
+      let currentX = 0;
+      let currentY = 0;
+
+
+      window.addEventListener(
+        "mousemove",
+        event => {
+
+          targetX =
+            (
+              event.clientX /
+              window.innerWidth
+            - .5
+            ) * 2;
+
+
+          targetY =
+            (
+              event.clientY /
+              window.innerHeight
+            - .5
+            ) * 2;
+
+        }
+      );
+
+
+      function animateCyber() {
+
+        currentX +=
+          (
+            targetX -
+            currentX
+          ) * .035;
+
+
+        currentY +=
+          (
+            targetY -
+            currentY
+          ) * .035;
+
+
+        cyber.style.transform =
+          `
+            translate3d(
+              ${currentX * 5}px,
+              ${currentY * 3}px,
+              0
+            )
+            rotateX(
+              ${currentY * -1.2}deg
+            )
+            rotateY(
+              ${currentX * 1.2}deg
+            )
+          `;
+
+
+        requestAnimationFrame(
+          animateCyber
+        );
+
+      }
+
+
+      animateCyber();
+
+    }
+
+
+  </script>
+
+</body>
+</html>
