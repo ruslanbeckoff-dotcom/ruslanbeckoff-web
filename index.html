@@ -149,6 +149,8 @@
       object-fit:contain;
       display:block;
       flex:0 0 auto;
+      border-radius:12px;
+      overflow:hidden;
     }
     .brand-name{
       font-size:17px;
@@ -255,7 +257,8 @@
     .hero-copy{
       width:min(660px,100%);
       position:relative;
-      z-index:5;
+      z-index:20;
+      isolation:isolate;
     }
 
     .hero h1{
@@ -284,7 +287,7 @@
       right:2%;
       top:50%;
       transform:translateY(-50%);
-      z-index:2;
+      z-index:0;
       pointer-events:none;
     }
     .visual::before{
@@ -487,7 +490,7 @@
     }
     .hero-copy h1{
       position:relative;
-      z-index:3;
+      z-index:30;
     }
     .hero-copy .identity-label{
       position:relative;
@@ -644,6 +647,7 @@
       html{scroll-behavior:auto}
       *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
     }
+    .ambient-button .ambient-orbit,.ambient-button .ambient-pulse{display:none!important}
   </style>
 </head>
 
@@ -653,7 +657,7 @@
   <header class="topbar">
     <a class="brand" href="#home" aria-label="Ruslanbeckoff home">
       <img class="brand-logo" src="logo.png" alt="Ruslanbeckoff logo">
-      <span class="brand-name">O‘zimiz.</span>
+      <span class="brand-name">O‘zimiz ☈</span>
     </a>
 
     <button class="menu-trigger" id="menuTrigger" aria-label="Open menu" aria-expanded="false">
@@ -693,7 +697,7 @@
     <div class="menu-section menu-creative">
       <div class="menu-label by-label">By ☈</div>
       <a class="ambient-card ambient-button" href="https://t.me/r17uz" target="_blank" rel="noopener" aria-label="Telegram channel">
-        <span class="ambient-title-link">O‘zimiz.</span>
+        <span class="ambient-title-link">O‘zimiz ☈</span>
       </a>
     </div>
 
@@ -828,20 +832,19 @@
     const greeting = document.getElementById("greeting");
 
     const translations = {
-      uz:{morning:"Hayrli tong",day:"Hayrli kun",evening:"Hayrli kech"},
-      ru:{morning:"Доброе утро",day:"Добрый день",evening:"Добрый вечер"},
-      en:{morning:"Good morning",day:"Good day",evening:"Good evening"}
+      uz:{menu:"Menyu",language:"Til",theme:"Mavzu",themeDark:"Qorong‘i",themeLight:"Yorug‘",navigate:"Navigatsiya",home:"Bosh sahifa",connect:"Aloqa",portfolio:"Portfolio",direct:"Aloqa",connectEyebrow:"Aloqa",connectTitle:"Meni toping.",connectDesc:"Loyihalar, kontent va aloqa uchun asosiy platformalar.",portfolioLabel:"Tanlangan ishlar",portfolioText:"Portfolio va loyihalar",portfolioOpen:"Portfolio",morning:"Hayrli tong",day:"Hayrli kun",evening:"Hayrli kech"},
+      ru:{menu:"Меню",language:"Язык",theme:"Тема",themeDark:"Тёмная",themeLight:"Светлая",navigate:"Навигация",home:"Главная",connect:"Контакты",portfolio:"Портфолио",direct:"Связь",connectEyebrow:"Контакты",connectTitle:"Найти меня.",connectDesc:"Основные платформы для проектов, контента и связи.",portfolioLabel:"Избранные работы",portfolioText:"Портфолио и проекты",portfolioOpen:"Портфолио",morning:"Доброе утро",day:"Добрый день",evening:"Добрый вечер"},
+      en:{menu:"Menu",language:"Language",theme:"Theme",themeDark:"Dark",themeLight:"Light",navigate:"Navigation",home:"Home",connect:"Connect",portfolio:"Portfolio",direct:"Contact",connectEyebrow:"Connect",connectTitle:"Find me.",connectDesc:"Main platforms for projects, content and contact.",portfolioLabel:"Selected work",portfolioText:"Portfolio & projects",portfolioOpen:"Portfolio",morning:"Good morning",day:"Good day",evening:"Good evening"}
     };
 
     function getPeriod(hour){
       if(hour >= 5 && hour < 11) return "morning";
       if(hour >= 11 && hour < 18) return "day";
-      if(hour >= 18 && hour < 23) return "evening";
-      return "night";
+      return "evening";
     }
 
     function setGreeting(){
-      const lang = localStorage.getItem("siteLang") || detectLanguage();
+      const lang = detectLanguage();
       const period = getPeriod(new Date().getHours());
       greeting.textContent = translations[lang][period];
     }
@@ -861,7 +864,7 @@
       document.documentElement.lang = lang;
       document.querySelectorAll("[data-i18n]").forEach(el=>{
         const key = el.dataset.i18n;
-        if(translations[lang][key]) el.textContent = translations[lang][key];
+        if(Object.prototype.hasOwnProperty.call(translations[lang], key)) el.textContent = translations[lang][key];
       });
       document.querySelectorAll("[data-lang]").forEach(btn=>{
         btn.classList.toggle("active",btn.dataset.lang === lang);
@@ -919,5 +922,3 @@
   </script>
 </body>
 </html>
-
-<style>.ambient-button .ambient-orbit,.ambient-button .ambient-pulse{display:none!important}</style>
